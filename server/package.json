@@ -1,0 +1,19 @@
+{
+  "name": "tools_box_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "koa": "^2.10.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "scripts": {
+    "nodemon": "nodemon index.js"
+  },
+  "author": "jlb",
+  "license": "ISC"
+}
