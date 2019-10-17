@@ -1,5 +1,8 @@
-const login = (res) => {
-  console.log(res);
+const login = (ctx) => {
+  ctx.body = {
+    text: "这里是login"
+  };
+  // console.log(res);
 };
 module.exports = {
   login
