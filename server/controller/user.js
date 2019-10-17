@@ -1,3 +1,6 @@
+const login = (res) => {
+  console.log(res);
+};
 module.exports = {
   login
   // login(ctx) {
@@ -15,6 +18,3 @@ module.exports = {
   // }
 };
 // res要包含{user：xxx,password:xxx}
-const login = (res) => {
-  console.log(res);
-};
