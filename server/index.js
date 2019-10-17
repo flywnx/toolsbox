@@ -9,4 +9,4 @@ app.use(bodyParser());
 // 若ctx.status为空或者404的时候,丰富response对象的header头
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(8000);
+app.listen(80);
