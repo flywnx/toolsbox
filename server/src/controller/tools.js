@@ -6,5 +6,6 @@ const toolsService = require("../service/tools.js");
 
 router.get(`/getToolsInfo`, toolsService.getToolsInfo);
 router.get(`/getToolsTarget`, toolsService.getToolsTarget);
+router.get(`/saveToolsInfo`, toolsService.saveToolsInfo);
 
 module.exports = router;
