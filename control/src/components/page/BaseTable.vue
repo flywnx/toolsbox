@@ -8,16 +8,16 @@
       </el-breadcrumb>
     </div>
     <div class="container">
-      <!-- <div class="handle-box">
+      <div class="handle-box">
         <el-select v-model="query.address"
                    placeholder="标签"
                    class="handle-select mr10">
-          <el-option key="1"
+          <!-- <el-option key="1"
                      label="热门工具"
                      value="热门工具"></el-option>
           <el-option key="2"
                      label="最新工具"
-                     value="最新工具"></el-option>
+                     value="最新工具"></el-option> -->
         </el-select>
         <el-input v-model="query.name"
                   placeholder="工具名"
@@ -25,7 +25,7 @@
         <el-button type="primary"
                    icon="el-icon-search"
                    @click="handleSearch">搜索</el-button>
-      </div> -->
+      </div>
       <el-table :data="tableData"
                 border
                 class="table"
@@ -103,6 +103,7 @@
         <el-form-item label="图标">
           <el-input v-model="form.icon">
           </el-input>
+
           <el-button type="text"
                      icon='el-icon-question'
                      class="question"
@@ -114,10 +115,10 @@
         </el-form-item>
         <el-form-item label="标签">
           <!-- <el-input v-model="form.icon"></el-input> -->
-          <el-select v-model="form.icon"
+          <el-select v-model="targetDiction[form.icon]"
                      multiple
                      placeholder="请选择">
-            <el-option v-for="item in options"
+            <el-option v-for="item in tableTarget"
                        :key="item.value"
                        :label="item.label"
                        :value="item.value">
@@ -140,7 +141,7 @@
 </template>
 
 <script>
-import { getToolsInfo } from '../../api/index';
+import { getToolsInfo, getToolsTarget } from '../../api/index';
 
 export default {
   name: 'basetable',
@@ -152,16 +153,9 @@ export default {
         pageIndex: 1,
         pageSize: 10
       },
-      tableData: [{
-        id: 1,
-        name: '计算器',
-        icon: 'el-icon-refrigerator',
-        url: 'www.baidu.com',
-
-        target: ['最新热门', '热门工具'],
-        showType: 'true',
-        createTime: new Date().getTime()
-      }],
+      tableData: [],
+      tableTarget: [],
+      targetDiction: {},
       multipleSelection: [],
       delList: [],
       editVisible: false,
@@ -180,12 +174,21 @@ export default {
       // 获取工具信息
       let toolsInfo = await getToolsInfo()
       if (toolsInfo.code == 0) {
-
+        this.tableData = toolsInfo.data
       } else {
-
+        alert('获取工具信息错误')
       }
       // 获取标签信息
+      let toolsTarget = await getToolsTarget()
+      if (toolsTarget.code == 0) {
+        this.tableTarget = toolsTarget.data
+        toolsTarget.data.forEach((item, index) => {
+          this.targetDiction[item.id] = item.name
+        })
 
+      } else {
+        alert('获取标签信息错误')
+      }
     },
     // 触发搜索按钮
     handleSearch () {

@@ -14,9 +14,15 @@ export const login = query => {
     });
 };
 
-export const getToolsInfo = query => {
+export const getToolsInfo = () => {
     return toolsbox({
-        url: `${url}/getToolsInfo${query}`,
+        url: `${url}/getToolsInfo`,
+        method: 'get'
+    });
+};
+export const getToolsTarget = () => {
+    return toolsbox({
+        url: `${url}/getToolsTarget`,
         method: 'get'
     });
 };
