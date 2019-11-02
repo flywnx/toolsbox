@@ -25,7 +25,7 @@ exports.saveToolsInfo = async(ctx) => {
     console.log(ctx.query)
     let query = ctx.query
     try {
-        let result = await toolsDao.saveToolsInfo(ctx, { query });
+        let result = await toolsDao.saveToolsInfo(ctx, query);
         ctx.body = util.resultSuccessJson(undefined, undefined, result);
     } catch (err) {
         console.log(err);

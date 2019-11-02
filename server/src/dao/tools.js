@@ -8,18 +8,18 @@ module.exports = {
         return ctx.execSql(`SELECT * FROM tool_type `);
     },
     saveToolsInfo: (ctx, query) => {
-        console.log('SQL', query)
+        console.log('SQL', query.query)
         return ctx.execSql(`
         UPDATE tool_info 
         SET 
-            name =${query.name},
-            icon =${query.icon},
-            url =${query.url},
-            target =${JSON.stringify(query.target)},
+            name = ?,
+            icon = ?,
+            url = ?,
+            target = ?
             WHERE
-            id = ${query.id}
-
-        
-        `, query);
+            id = ?
+        `, [query.name, query.icon, query.url,
+            query.target, query.id
+        ]);
     }
 };
