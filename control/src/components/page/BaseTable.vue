@@ -8,18 +8,9 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <!-- <div class="handle-box">
-                <el-select v-model="query.target" placeholder="标签" class="handle-select mr10">
-                    <el-option key="1"
-                     label="热门工具"
-                     value="热门工具"></el-option>
-          <el-option key="2"
-                     label="最新工具"
-                    value="最新工具"></el-option>
-                </el-select>
-                <el-input v-model="query.name" placeholder="工具名" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-            </div>-->
+            <div class="handle-box">
+                <el-button type="primary" icon="el-icon-plus" @click="addTools"></el-button>
+            </div>
             <el-table
                 :data="tableData"
                 border
@@ -92,7 +83,6 @@
                     <el-input v-model="form.url"></el-input>
                 </el-form-item>
                 <el-form-item label="标签">
-                    <!-- <el-input v-model="form.icon"></el-input> -->
                     <el-select v-model="form.target" multiple placeholder="请选择">
                         <el-option
                             v-for="item in tableTarget"
@@ -115,7 +105,7 @@
 </template>
 
 <script>
-import { getToolsInfo, getToolsTarget,saveToolsInfo } from '../../api/index';
+import { getToolsInfo, getToolsTarget, saveToolsInfo } from '../../api/index';
 import { isJson } from '../../utils/json';
 export default {
     name: 'basetable',
@@ -139,19 +129,12 @@ export default {
             id: -1
         };
     },
-    created() {
+    mounted() {
         this.getData();
     },
     methods: {
         // 获取数据
         async getData() {
-            // 获取工具信息
-            let toolsInfo = await getToolsInfo();
-            if (toolsInfo.code == 0) {
-                this.tableData = toolsInfo.data;
-            } else {
-                alert('获取工具信息错误');
-            }
             // 获取标签信息
             let toolsTarget = await getToolsTarget();
             if (toolsTarget.code == 0) {
@@ -159,33 +142,28 @@ export default {
                 toolsTarget.data.forEach((item, index) => {
                     this.targetDiction[item.id] = item.name;
                 });
-                console.log(this.targetDiction);
+                // console.log(this.targetDiction);
             } else {
                 alert('获取标签信息错误');
             }
-            // 整合信息
-            this.tableData.forEach((item, index) => {
-                item.target = isJson(item.target);
-                for (let i = 0; i < item.target.length; i++) {
-                    item.target[i] = this.targetDiction[item.target[i]];
-                }
-            });
+            // 获取工具信息
+            let toolsInfo = await getToolsInfo();
+            if (toolsInfo.code == 0) {
+                toolsInfo.data.map(item => {
+                    item.target = JSON.parse(item.target);
+                    item.target.map((i, count) => {
+                        item.target[count] = this.targetDiction[i];
+                        return;
+                    });
+                });
+                this.tableData = toolsInfo.data;
+            } else {
+                alert('获取工具信息错误');
+            }
+            console.log(this.tableData);
         },
-        // // 触发搜索按钮
-        // handleSearch() {
-        //     this.$set(this.query, 'pageIndex', 1);
-        //     this.getData();
-        // },
-        // delAllSelection() {
-        //     const length = this.multipleSelection.length;
-        //     let str = '';
-        //     this.delList = this.delList.concat(this.multipleSelection);
-        //     for (let i = 0; i < length; i++) {
-        //         str += this.multipleSelection[i].name + ' ';
-        //     }
-        //     this.$message.error(`删除了${str}`);
-        //     this.multipleSelection = [];
-        // },
+        // 添加工具
+        addTools() {},
         // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
@@ -194,28 +172,20 @@ export default {
         },
         // 保存编辑
         async saveEdit() {
-            // this.editVisible = false;
-            // this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            // this.$set(this.tableData, this.idx, this.form);
             // 获取工具信息
             const h = this.$createElement;
-            console.log(this.form)
-            this.form.target = JSON.stringify(this.form.target)
+            console.log(this.form);
+            this.form.target = JSON.stringify(this.form.target);
             let saveCallback = await saveToolsInfo(this.form);
             if (saveCallback.code == 0) {
-               this.$notify({
+                this.$notify({
                     title: '保存工具信息',
-                    message: 
-                    h('i', { style: 'color: teal' },
-                     '获取工具信息成功'
-                     )
+                    message: h('i', { style: 'color: teal' }, '获取工具信息成功')
                 });
             } else {
                 this.$notify({
                     title: '保存工具信息',
-                    message: 
-                    h('i', { style: 'color: teal' },
-                     '获取工具信息错误')
+                    message: h('i', { style: 'color: teal' }, '获取工具信息错误')
                 });
             }
         },
