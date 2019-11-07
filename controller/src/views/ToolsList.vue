@@ -1,12 +1,17 @@
 <template>
-  <div></div>
+  <div>
+    
+  </div>
 </template>
 <script>
+
+
 export default {
-  "name": "tagNav",
+  "name": "toolsList",
   "data": () => {
     return {};
-  }
+  },
+
 };
 </script>
 <style lang="scss" scoped></style>

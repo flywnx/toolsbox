@@ -2,24 +2,27 @@
   <div class="login">
     <div class="form-box">
       <h2>toolxBox Controller</h2>
-      <el-form :model="param" :rules="rules">
+      <el-form :model="param"
+               :rules="rules">
         <el-form-item prop="username">
-          <el-input v-model="param.username" placeholder="username">
-            <el-button slot="prepend" icon="ali-icon-user"></el-button>
+          <el-input v-model="param.username"
+                    placeholder="username">
+            <el-button slot="prepend"
+                       icon="ali-icon-user"></el-button>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input
-            v-model="param.password"
-            placeholder="password"
-            show-password
-            @keyup.enter.native="submitForm()"
-          >
-            <el-button slot="prepend" icon="ali-icon-unlock"></el-button>
+          <el-input v-model="param.password"
+                    placeholder="password"
+                    show-password
+                    @keyup.enter.native="submitForm()">
+            <el-button slot="prepend"
+                       icon="ali-icon-unlock"></el-button>
           </el-input>
         </el-form-item>
       </el-form>
-      <el-button type="primary" @click="submitForm()">登录</el-button>
+      <el-button type="primary"
+                 @click="submitForm()">登录</el-button>
     </div>
   </div>
 </template>
@@ -27,23 +30,23 @@
 <script>
 import { login } from "../api/index";
 export default {
-  name: "login",
-  data: () => {
+  "name": "login",
+  "data": () => {
     return {
-      param: {
-        username: "",
-        password: ""
+      "param": {
+        "username": "",
+        "password": ""
       },
-      rules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" }
+      "rules": {
+        "username": [
+          { "required": true, "message": "请输入用户名", "trigger": "blur" }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+        "password": [{ "required": true, "message": "请输入密码", "trigger": "blur" }]
       }
     };
   },
-  methods: {
-    async submitForm() {
+  "methods": {
+    async submitForm () {
       const loginInfo = await login(
         `?username=${this.param.username}&password=${this.param.password}`
       );
@@ -56,7 +59,7 @@ export default {
       }
     }
   },
-  components: {}
+  "components": {}
 };
 </script>
 

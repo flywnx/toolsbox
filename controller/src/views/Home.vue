@@ -3,19 +3,23 @@
     <TopNav></TopNav>
     <LeftNav></LeftNav>
     <TagNav></TagNav>
-    <!-- content -->
+
+    <!-- <router-view>
+    </router-view> -->
   </div>
 </template>
+
 <script>
+
 import TopNav from "../components/TopNav";
 import LeftNav from "../components/LeftNav";
 import TagNav from "../components/TagNav";
 export default {
-  name: "home",
-  data: () => {
+  "name": "home",
+  "data": () => {
     return {};
   },
-  components: {
+  "components": {
     TopNav,
     LeftNav,
     TagNav

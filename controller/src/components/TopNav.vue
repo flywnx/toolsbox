@@ -17,11 +17,16 @@
   </div>
 </template>
 <script>
+// import { mapState } from "vuex";
 export default {
-  name: "topNav",
-  data: () => {
+  "name": "topNav",
+  "data": () => {
     return {};
-  }
+  },
+  "methods": {
+
+  },
+
 };
 </script>
 <style lang="scss" scoped>
