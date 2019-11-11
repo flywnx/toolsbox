@@ -3,8 +3,10 @@
     <TopNav></TopNav>
     <LeftNav></LeftNav>
     <TagNav></TagNav>
+    <div>
+      <router-view></router-view>
+    </div>
 
-    <router-view></router-view>
   </div>
 </template>
 

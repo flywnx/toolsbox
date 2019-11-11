@@ -22,7 +22,7 @@ const routes = [
             import(/* webpackChunkName: "home" */ "../views/Home.vue"),
         "children": [
             {
-                "path": "/toolsTagList",
+                "path": "toolsTagList",
                 "name": "toolsTagList",
                 "meta": { "title": "标签页" },
                 "component": () =>
@@ -31,6 +31,15 @@ const routes = [
                     )
             }
         ]
+    },
+    {
+        "path": "/toolsTagList",
+        "name": "toolsTagList",
+        "meta": { "title": "标签页" },
+        "component": () =>
+            import(
+                /* webpackChunkName: "toolsTagList" */ "../views/ToolsTagList.vue"
+            )
     }
 ];
 
