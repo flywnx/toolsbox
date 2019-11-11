@@ -12,7 +12,8 @@
                       class="item"
                       @click="toToolsList">工具列表</el-menu-item>
         <el-menu-item index="1-2"
-                      class="item">工具标签列表</el-menu-item>
+                      class="item"
+                      @click="toToolsTagList">工具标签列表</el-menu-item>
 
       </el-submenu>
     </el-menu>
@@ -30,6 +31,9 @@ export default {
   "methods": {
     toToolsList () {
 
+    },
+    toToolsTagList () {
+      this.$router.push("/home/toolsTagList");
     },
     onOpen () {
 

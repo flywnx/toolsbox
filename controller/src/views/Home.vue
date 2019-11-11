@@ -4,8 +4,7 @@
     <LeftNav></LeftNav>
     <TagNav></TagNav>
 
-    <!-- <router-view>
-    </router-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
