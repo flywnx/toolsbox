@@ -22,6 +22,15 @@ export const getToolsTarget = () => {
         "method": "get"
     });
 };
+
+export const addTarget = (query) => {
+    console.log("addTarget");
+    return toolsbox({
+        "url": `${url}/addTarget${query}`,
+        "method": "get"
+    });
+};
+
 // saveToolsInfo
 export const saveToolsInfo = (query) => {
     return toolsbox({

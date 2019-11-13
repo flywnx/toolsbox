@@ -1,15 +1,12 @@
 // tools.js
 module.exports = {
-    getToolsInfo: (ctx) => {
-        return ctx.execSql(
-            `SELECT * FROM tool_info  `);
-    },
-    getToolsTarget: (ctx) => {
-        return ctx.execSql(`SELECT * FROM tool_type `);
-    },
-    saveToolsInfo: (ctx, query) => {
-        console.log('SQL', query.query)
-        return ctx.execSql(`
+  getToolsInfo: (ctx) => {
+    return ctx.execSql(`SELECT * FROM tool_info  `);
+  },
+  saveToolsInfo: (ctx, query) => {
+    console.log("SQL", query.query);
+    return ctx.execSql(
+      `
         UPDATE tool_info 
         SET 
             name = ?,
@@ -18,8 +15,18 @@ module.exports = {
             target = ?
             WHERE
             id = ?
-        `, [query.name, query.icon, query.url,
-            query.target, query.id
-        ]);
-    }
+        `,
+      [query.name, query.icon, query.url, query.target, query.id]
+    );
+  },
+  getToolsTarget: (ctx) => {
+    return ctx.execSql(`SELECT * FROM tool_type `);
+  },
+
+  addTarget: (ctx, query) => {
+    console.log("addTarget", query);
+    return ctx.execSql(`INSERT INTO tool_type(name) VALUES(?)`, [
+      query.tagName
+    ]);
+  }
 };

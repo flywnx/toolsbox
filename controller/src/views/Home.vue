@@ -3,7 +3,7 @@
     <TopNav></TopNav>
     <LeftNav></LeftNav>
     <TagNav></TagNav>
-    <div>
+    <div class="viewBox">
       <router-view></router-view>
     </div>
 
@@ -27,4 +27,11 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.viewBox {
+  width: 85%;
+  position: fixed;
+  right: 0;
+  top: 80px;
+}
+</style>
