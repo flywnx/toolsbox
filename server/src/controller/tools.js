@@ -8,5 +8,6 @@ router.get(`/getToolsInfo`, toolsService.getToolsInfo);
 router.get(`/getToolsTarget`, toolsService.getToolsTarget);
 router.get(`/saveToolsInfo`, toolsService.saveToolsInfo);
 router.get(`/addTarget`, toolsService.addTarget);
+router.get(`/deleteTarget`, toolsService.deleteTarget);
 
 module.exports = router;

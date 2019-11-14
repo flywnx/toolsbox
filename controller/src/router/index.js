@@ -4,6 +4,12 @@ import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
 
+//消除点击同一路径会报错的问题
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch((err) => err);
+};
+
 const routes = [
     {
         "path": "/",
@@ -14,9 +20,6 @@ const routes = [
     {
         "path": "/home",
         "name": "home",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         "meta": { "title": "首页" },
         "component": () =>
             import(/* webpackChunkName: "home" */ "../views/Home.vue"),
@@ -29,17 +32,17 @@ const routes = [
                     import(
                         /* webpackChunkName: "toolsTagList" */ "../views/ToolsTagList.vue"
                     )
+            },
+            {
+                "path": "toolsList",
+                "name": "toolsList",
+                "meta": { "title": "标签页" },
+                "component": () =>
+                    import(
+                        /* webpackChunkName: "toolsList" */ "../views/ToolsList.vue"
+                    )
             }
         ]
-    },
-    {
-        "path": "/toolsTagList",
-        "name": "toolsTagList",
-        "meta": { "title": "标签页" },
-        "component": () =>
-            import(
-                /* webpackChunkName: "toolsTagList" */ "../views/ToolsTagList.vue"
-            )
     }
 ];
 

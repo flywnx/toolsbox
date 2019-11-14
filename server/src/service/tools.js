@@ -45,3 +45,18 @@ exports.addTarget = async (ctx) => {
     ctx.body = util.resultErrorJson(undefined, err, {});
   }
 };
+
+exports.deleteTarget = async (ctx) => {
+  console.log(ctx.query);
+  let query = ctx.query;
+  try {
+    // 先添加
+    await toolsDao.deleteTarget(ctx, query);
+    // 获取新的列表返回
+    let result = await toolsDao.getToolsTarget(ctx, {});
+    ctx.body = util.resultSuccessJson(undefined, undefined, result);
+  } catch (err) {
+    console.log(err);
+    ctx.body = util.resultErrorJson(undefined, err, {});
+  }
+};

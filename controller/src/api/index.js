@@ -30,6 +30,13 @@ export const addTarget = (query) => {
         "method": "get"
     });
 };
+export const deleteTarget = (query) => {
+    console.log("deleteTarget");
+    return toolsbox({
+        "url": `${url}/deleteTarget${query}`,
+        "method": "get"
+    });
+};
 
 // saveToolsInfo
 export const saveToolsInfo = (query) => {

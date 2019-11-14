@@ -28,5 +28,9 @@ module.exports = {
     return ctx.execSql(`INSERT INTO tool_type(name) VALUES(?)`, [
       query.tagName
     ]);
+  },
+  deleteTarget: (ctx, query) => {
+    console.log("addTarget", query);
+    return ctx.execSql(`DELETE FROM tool_type WHERE id = ?`, [query.id]);
   }
 };

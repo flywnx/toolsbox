@@ -10,7 +10,7 @@
             </el-table-column>
             <el-table-column prop="name" label="标签" align="center">
             </el-table-column>
-            <el-table-column prop="id" label="编辑" align="center">
+            <el-table-column prop="id" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button
                         type="danger"
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getToolsTarget, addTarget } from "../api/index";
+import { getToolsTarget, addTarget, deleteTarget } from "../api/index";
 export default {
     "name": "toolsTagList",
     "data": () => {
@@ -61,7 +61,7 @@ export default {
                         });
                     } else {
                         this.$message({
-                            "type": "info",
+                            "type": "error",
                             "message": "标签添加失败"
                         });
                     }
@@ -74,8 +74,21 @@ export default {
                     });
                 });
         },
-        deleteTag(e) {
-            console.log(e);
+        async deleteTag(data) {
+            console.log(data);
+            const callBack = await deleteTarget(`?id=${data.id}`);
+            if (callBack.code == 0) {
+                this.tagInfo = callBack.data;
+                this.$message({
+                    "type": "success",
+                    "message": "删除成功"
+                });
+            } else {
+                this.$message({
+                    "type": "error",
+                    "message": "删除失败"
+                });
+            }
         }
     }
 };
