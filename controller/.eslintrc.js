@@ -15,6 +15,6 @@ module.exports = {
     rules: {
         "no-console": "off",
         semi: ["error", "always"],
-        "quote-props": [2, "always"]
+        "quote-props": [2, "as-needed"]
     }
 };
