@@ -42,35 +42,53 @@
 
     <el-dialog title="新增道具" :visible.sync="addDialogShow" :modal-append-to-body="false">
       <el-input placeholder="名称" v-model="addInfo.name"></el-input>
-      <el-input placeholder="图标" v-model="addInfo.name"></el-input>
-      <el-input placeholder="链接" v-model="addInfo.name"></el-input>
-      <el-select v-model="value1" multiple placeholder="请选择">
-        <el-option
-          v-for="item in tagInfo"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-      <el-input placeholder="展示" v-model="addInfo.name"></el-input>
+      <!-- <el-input placeholder="图标" v-model="addInfo.icon"></el-input> -->
+
+      <el-input placeholder="链接" v-model="addInfo.url"></el-input>
+
+      <div class="lineMore">
+        <el-select v-model="addInfo.tag" multiple placeholder="标签">
+          <el-option v-for="item in tagInfo" :key="item.id" :label="item.name" :value="item.name"></el-option>
+        </el-select>
+        <el-switch v-model="addInfo.showType" active-text="展示" inactive-text="隐藏  "></el-switch>
+      </div>
+      <div class="lineMore">
+        <el-upload
+          class="upload-demo"
+          action="http://192.168.199.218:8080/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          list-type="picture"
+        >
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+        <el-button type="primary" @click="onAddTools">确定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getToolsInfo } from "../api/index";
+import { getToolsInfo, getToolsTarget, addTools } from "../api/index";
+
 export default {
-  name: "toolsTagList",
+  name: "toolsList",
   data: () => {
     return {
       toolsInfo: [],
       tagInfo: [],
       addDialogShow: false,
       addInfo: {
-        name: ""
+        name: "",
+        icon: "",
+        url: "",
+        showType: true,
+        tag: []
       }
     };
   },
+
   async created() {
     const toolsInfo = await getToolsInfo();
     if (toolsInfo.code === 0) {
@@ -88,8 +106,23 @@ export default {
     }
   },
   methods: {
-    addTaget() {},
-    deleteTag() {}
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    async onAddTools() {
+      console.log(this.addInfo);
+      const callBack = await addTools();
+      if (callBack.code === 0) {
+        this.toolsInfo = callBack.data;
+        console.log(this.toolsInfo);
+      } else {
+        this.$message.error("获取标签错误");
+      }
+    },
+    deleteTools() {}
   }
 };
 </script>
@@ -113,6 +146,11 @@ export default {
     .el-input,
     .el-select {
       margin-bottom: $fontSize;
+    }
+    .lineMore {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 }
