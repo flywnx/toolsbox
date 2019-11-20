@@ -14,5 +14,8 @@ module.exports = {
   API: {
     // 项目接口前缀
     PROJECT_INTERFACE_PREFIX: "/testApi"
-  }
+  },
+  // 七牛云AccessKey/SecretKey
+  AK: "PLVbNZJZW55mYBoLq4D8boZgO5xrTeBTqTCKHqER",
+  SK: "7C6I0uWsRqRe1KooSW5pP4iu494Ae_aQ28sBSyXT"
 };
