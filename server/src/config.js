@@ -1,7 +1,7 @@
 module.exports = {
   SERVICE: {
-    HOST: "localhost",
-    PORT: "80"
+    HOST: "127.0.0.1",
+    PORT: "3030"
   },
   DATABASE: {
     HOST: "47.104.64.45",

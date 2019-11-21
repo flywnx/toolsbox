@@ -1,8 +1,8 @@
 module.exports = {
-  HOST: "http://localhost:80",
+  'HOST': "http://47.104.64.45:3030",
   // 接口地址配置
-  API: {
+  'API': {
     // 项目接口前缀
-    PROJECT_INTERFACE_PREFIX: "/testApi"
+    'PROJECT_INTERFACE_PREFIX': "/testApi"
   }
 };
