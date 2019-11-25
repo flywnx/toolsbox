@@ -96,7 +96,6 @@
             :modal-append-to-body="false"
         >
             <el-input placeholder="名称" v-model="addInfo.name"></el-input>
-            <!-- <el-input placeholder="图标" v-model="addInfo.icon"></el-input> -->
 
             <el-input placeholder="链接" v-model="addInfo.url"></el-input>
 
@@ -116,19 +115,12 @@
                 ></el-switch>
             </div>
             <div class="lineMore">
-                <el-upload
-                    class="upload-demo"
-                    action="http://localhost:8080/"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    list-type="picture"
-                    :file-list="fileList"
-                >
-                    <el-button size="small" type="primary">点击上传</el-button>
-                    <div slot="tip" class="el-upload__tip">
-                        只能上传jpg/png文件，且不超过500kb
-                    </div>
-                </el-upload>
+                <el-input
+                    type="file"
+                    placeholder="选择图片"
+                    v-model="addInfo.icon"
+                    @change="selectIcon"
+                ></el-input>
                 <el-button type="primary" @click="onAddTools">确定</el-button>
             </div>
         </el-dialog>
@@ -139,10 +131,10 @@
 import {
     getToolsInfo,
     getToolsTarget,
-    addTools,
-    getQiniuToken
+    addTools
+    // getQiniuToken
 } from "../api/index";
-
+import * as qiniu from "qiniu-js";
 export default {
     "name": "toolsList",
     "data": () => {
@@ -160,9 +152,7 @@ export default {
             "fileList": []
         };
     },
-    mounted() {
-        this.getToken();
-    },
+
     async created() {
         const toolsInfo = await getToolsInfo();
         if (toolsInfo.code === 0) {
@@ -180,26 +170,21 @@ export default {
         }
     },
     "methods": {
-        async getToken() {
-            const token = await getQiniuToken();
-            console.log(token);
-        },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePreview(file) {
+        selectIcon($event) {
+            console.log($eventn, $event.target);
+            const file = this.addInfo.icon.target.files[0];
             console.log(file);
-        },
-        async onAddTools() {
-            console.log(this.addInfo);
-            const callBack = await addTools();
-            if (callBack.code === 0) {
-                this.toolsInfo = callBack.data;
-                console.log(this.toolsInfo);
-            } else {
-                this.$message.error("获取标签错误");
+            // 限制上传文件的大小为200M
+            if (file.size > 209715200) {
+                const cur_size =
+                    Math.floor((file.size * 100) / 1024 / 1024) / 100;
+                this.$message.error(
+                    "上传文件大小不得超过200M 当前文件" + cur_size + "M "
+                );
+                return false;
             }
         },
+        onAddTools() {},
         deleteTools() {}
     }
 };

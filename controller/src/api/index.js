@@ -53,9 +53,9 @@ export const saveToolsInfo = query => {
     });
 };
 
-export const getQiniuToken = () => {
-    return toolsbox({
-        "url": `${url}/getQiniuToken?`,
-        "method": "get"
-    });
-};
+// export const getQiniuToken = () => {
+//     return toolsbox({
+//         "url": `${url}/getQiniuToken?`,
+//         "method": "get"
+//     });
+// };

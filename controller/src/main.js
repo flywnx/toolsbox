@@ -6,12 +6,13 @@ import router from "./router";
 import store from "./store";
 import "./assets/css/icon.css";
 import "./assets/css/init.css";
-
+// import qiniu from "qiniu";
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+// Vue.use(qiniu);
 
 new Vue({
     router,
     store,
-    "render": (h) => h(App)
+    "render": h => h(App)
 }).$mount("#app");
