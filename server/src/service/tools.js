@@ -1,6 +1,21 @@
 const toolsDao = require("../dao/tools");
 const util = require("../utilitys");
 
+exports.addTools = async (ctx) => {
+  console.log(ctx.query);
+  let query = ctx.query;
+  try {
+    // 先添加
+    await toolsDao.addTools(ctx, query);
+    // 获取新的列表返回
+    let result = await toolsDao.getToolsInfo(ctx, {});
+    ctx.body = util.resultSuccessJson(undefined, undefined, result);
+  } catch (err) {
+    console.log(err);
+    ctx.body = util.resultErrorJson(undefined, err, {});
+  }
+};
+
 exports.getToolsInfo = async (ctx) => {
   try {
     let result = await toolsDao.getToolsInfo(ctx, {});
@@ -11,6 +26,7 @@ exports.getToolsInfo = async (ctx) => {
     ctx.body = util.resultErrorJson(undefined, err, {});
   }
 };
+
 exports.getToolsTarget = async (ctx) => {
   try {
     let result = await toolsDao.getToolsTarget(ctx, {});
@@ -20,11 +36,11 @@ exports.getToolsTarget = async (ctx) => {
     ctx.body = util.resultErrorJson(undefined, err, {});
   }
 };
-exports.saveToolsInfo = async (ctx) => {
+exports.updateToolsInfo = async (ctx) => {
   console.log(ctx.query);
   let query = ctx.query;
   try {
-    let result = await toolsDao.saveToolsInfo(ctx, query);
+    let result = await toolsDao.updateToolsInfo(ctx, query);
     ctx.body = util.resultSuccessJson(undefined, undefined, result);
   } catch (err) {
     console.log(err);

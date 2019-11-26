@@ -115,12 +115,24 @@
                 ></el-switch>
             </div>
             <div class="lineMore">
-                <el-input
-                    type="file"
-                    placeholder="选择图片"
-                    v-model="addInfo.icon"
-                    @change="selectIcon"
-                ></el-input>
+                <el-upload
+                    class="upload-demo"
+                    :action="qiniu.url"
+                    :data="qiniu"
+                    :on-remove="handleRemove"
+                    :on-error="uploadError"
+                    :on-success="uploadSuccess"
+                    :before-upload="beforeAvatarUpload"
+                    :limit="3"
+                    multiple
+                    :on-exceed="handleExceed"
+                    :file-list="fileList"
+                >
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip">
+                        只能上传jpg/png文件，且不超过500kb
+                    </div>
+                </el-upload>
                 <el-button type="primary" @click="onAddTools">确定</el-button>
             </div>
         </el-dialog>
@@ -131,14 +143,20 @@
 import {
     getToolsInfo,
     getToolsTarget,
-    addTools
-    // getQiniuToken
+    addTools,
+    getQiniuToken
 } from "../api/index";
 import * as qiniu from "qiniu-js";
 export default {
     "name": "toolsList",
     "data": () => {
         return {
+            "qiniu": {
+                "url": "https://upload-z2.qiniup.com",
+                "qiniuaddr": "http://q17t0n6ad.bkt.clouddn.com",
+                "key": "", //图片名字处理
+                "token": "" //七牛云token
+            },
             "toolsInfo": [],
             "tagInfo": [],
             "addDialogShow": false,
@@ -168,23 +186,60 @@ export default {
         } else {
             this.$message.error("获取标签错误");
         }
+        const qiniuToken = await getQiniuToken();
+        console.log(qiniuToken);
+        if (qiniuToken.code === 0) {
+            this.qiniu.token = qiniuToken.data.token;
+        } else {
+            this.$message.error("获取token错误");
+        }
     },
     "methods": {
-        selectIcon($event) {
-            console.log($eventn, $event.target);
-            const file = this.addInfo.icon.target.files[0];
-            console.log(file);
-            // 限制上传文件的大小为200M
-            if (file.size > 209715200) {
-                const cur_size =
-                    Math.floor((file.size * 100) / 1024 / 1024) / 100;
-                this.$message.error(
-                    "上传文件大小不得超过200M 当前文件" + cur_size + "M "
-                );
+        handleRemove(file, fileList) {
+            this.qiniu.uploadPicUrl = "";
+        },
+        handleExceed(files, fileList) {
+            this.$message.warning(
+                `当前限制选择 3 张图片，如需更换，请删除上一张图片在重新选择！`
+            );
+        },
+        uploadError(err, file, fileList) {
+            this.$message({
+                "message": "上传出错，请重试！",
+                "type": "error",
+                "center": true
+            });
+        },
+        uploadSuccess(response, file, fileList) {
+            console.log(fileList);
+            this.addInfo.icon = `${this.qiniu.qiniuaddr}/${response.key}`;
+        },
+        beforeAvatarUpload(file) {
+            const isPNG = file.type === "image/png";
+            const isJPEG = file.type === "image/jpeg";
+            const isJPG = file.type === "image/jpg";
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isPNG && !isJPEG && !isJPG) {
+                this.$message.error("上传头像图片只能是 jpg、png、jpeg 格式!");
                 return false;
             }
+            if (!isLt2M) {
+                this.$message.error("上传头像图片大小不能超过 2MB!");
+                return false;
+            }
+            this.qiniu.key = `upload_pic_${file.name}`;
         },
-        onAddTools() {},
+        async onAddTools() {
+            console.log(this.addInfo);
+            const addToolsCB = await addTools();
+            console.log(addToolsCB);
+            if (addToolsCB.code === 0) {
+                this.toolsInfo = addToolsCB.data;
+            } else {
+                this.$message.error("添加工具失败");
+            }
+        },
         deleteTools() {}
     }
 };

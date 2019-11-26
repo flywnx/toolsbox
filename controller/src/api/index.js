@@ -18,7 +18,7 @@ export const getToolsInfo = () => {
 };
 export const addTools = query => {
     return toolsbox({
-        "url": `${url}/addTools${query}`,
+        "url": `${url}/addTools?${query}`,
         "method": "get"
     });
 };
@@ -45,17 +45,17 @@ export const deleteTarget = query => {
     });
 };
 
-// saveToolsInfo
-export const saveToolsInfo = query => {
+// updateToolsInfo
+export const updateToolsInfo = query => {
     return toolsbox({
-        "url": `${url}/saveToolsInfo?${getUrlParams(query)}`,
+        "url": `${url}/updateToolsInfo?${getUrlParams(query)}`,
         "method": "get"
     });
 };
 
-// export const getQiniuToken = () => {
-//     return toolsbox({
-//         "url": `${url}/getQiniuToken?`,
-//         "method": "get"
-//     });
-// };
+export const getQiniuToken = () => {
+    return toolsbox({
+        "url": `${url}/getQiniuToken`,
+        "method": "get"
+    });
+};
