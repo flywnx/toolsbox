@@ -1,10 +1,25 @@
 // tools.js
 module.exports = {
-  addTarget: (ctx, query) => {
+  addTools: (ctx, query) => {
     console.log("addTools", query);
-    return ctx.execSql(`INSERT INTO tool_info(name) VALUES(?)`, [
-      query.tagName
-    ]);
+    return ctx.execSql(
+      `INSERT INTO tool_info(
+      name,
+      icon,
+      url,
+      target,
+      showType,
+      createTime
+      ) VALUES(
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?
+        )`,
+      [query.name, query.icon, query.url, query.tag, query.showtype, query.tick]
+    );
   },
   getToolsInfo: (ctx) => {
     return ctx.execSql(`SELECT * FROM tool_info  `);

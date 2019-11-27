@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-export const isJson = (str) => {
+export const isJson = str => {
     try {
         str = JSON.parse(str);
     } catch (error) {
@@ -8,7 +8,7 @@ export const isJson = (str) => {
     return str;
 };
 
-export const getUrlParams = (params) => {
+export const getUrlParams = params => {
     let havetick = false;
     let keys = [];
     for (let key in params) {
@@ -16,7 +16,15 @@ export const getUrlParams = (params) => {
             typeof params[key] !== "string" &&
             typeof params[key] !== "number"
         ) {
-            continue;
+            if (
+                Object.prototype.toString.call(params[key]) == "[object Array]"
+            ) {
+                params[key] = params[key].join(",");
+            } else if (typeof params[key] === "boolean") {
+                params[key] = !!params[key] ? 1 : 0;
+            } else {
+                continue;
+            }
         }
 
         if (key == "tick") havetick = true;

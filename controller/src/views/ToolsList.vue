@@ -232,7 +232,7 @@ export default {
         },
         async onAddTools() {
             console.log(this.addInfo);
-            const addToolsCB = await addTools();
+            const addToolsCB = await addTools(this.addInfo);
             console.log(addToolsCB);
             if (addToolsCB.code === 0) {
                 this.toolsInfo = addToolsCB.data;

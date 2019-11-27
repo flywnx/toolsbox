@@ -18,7 +18,7 @@ export const getToolsInfo = () => {
 };
 export const addTools = query => {
     return toolsbox({
-        "url": `${url}/addTools?${query}`,
+        "url": `${url}/addTools?${getUrlParams(query)}`,
         "method": "get"
     });
 };

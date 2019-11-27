@@ -2,7 +2,7 @@ const toolsDao = require("../dao/tools");
 const util = require("../utilitys");
 
 exports.addTools = async (ctx) => {
-  console.log(ctx.query);
+  console.log("addTools server", ctx.query);
   let query = ctx.query;
   try {
     // 先添加

@@ -7,10 +7,10 @@ const config = require("./config.js");
 const projectApiPrefix = config.API.PROJECT_INTERFACE_PREFIX;
 // 读取controller文件夹中的文件
 fs.readdirSync(path.join(__dirname, "controller")).forEach((file) => {
-  console.log(file);
+  // console.log(file);
   if (~file.indexOf(".js")) {
     let controller = require(path.join(__dirname, "controller", file));
-    console.log(controller);
+    // console.log(controller);
     // 为接口设置通用前缀
     router.use(
       `${projectApiPrefix}`,
