@@ -153,7 +153,7 @@ export default {
         return {
             "qiniu": {
                 "url": "https://upload-z2.qiniup.com",
-                "qiniuaddr": "http://q17t0n6ad.bkt.clouddn.com",
+                "qiniuaddr": "http://img.playtheone.com",
                 "key": "", //图片名字处理
                 "token": "" //七牛云token
             },
@@ -211,7 +211,7 @@ export default {
             });
         },
         uploadSuccess(response, file, fileList) {
-            console.log(fileList);
+            console.log(response, file, fileList);
             this.addInfo.icon = `${this.qiniu.qiniuaddr}/${response.key}`;
         },
         beforeAvatarUpload(file) {
@@ -228,7 +228,9 @@ export default {
                 this.$message.error("上传头像图片大小不能超过 2MB!");
                 return false;
             }
-            this.qiniu.key = `upload_pic_${file.name}`;
+            let names = file.name.split(".");
+            this.qiniu.key =
+                names[0] + "-" + new Date().getTime() + "." + names[1];
         },
         async onAddTools() {
             console.log(this.addInfo);

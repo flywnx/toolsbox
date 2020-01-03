@@ -1,8 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import home from "../page/Home.vue";
-import find from "../page/Find.vue";
-import search from "../page/Search.vue";
 
 Vue.use(VueRouter);
 
@@ -21,19 +18,13 @@ const routes = [
     "path": "/home",
     "name": "home",
     "meta": { "title": "首页" },
-    "component": home
+    "component": () => import(/* webpackChunkName: "home" */ "../views/Home.vue")
   },
   {
     "path": "/find",
     "name": "find",
-    "meta": { "title": "简介" },
-    "component": find
-  },
-  {
-    "path": "/search",
-    "name": "search",
-    "meta": { "title": "简介" },
-    "component": search
+    "meta": { "title": "发现" },
+    "component": () => import(/* webpackChunkName: "home" */ "../views/Find.vue")
   }
   // {
   //   path: "/home",
